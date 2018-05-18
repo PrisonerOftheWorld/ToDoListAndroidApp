@@ -1,2 +1,0 @@
-# ToDoListAndroidApp
-READMI.md
