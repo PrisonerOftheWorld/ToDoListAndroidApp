@@ -1,7 +1,9 @@
-package com.example.roman.todolistandroidapp;
+package com.example.roman.todolistandroidapp.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.roman.todolistandroidapp.R;
 
 public class MainActivity extends AppCompatActivity {
 
