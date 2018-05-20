@@ -17,7 +17,7 @@ public class RetrofitService {
                 .create();
         Retrofit.Builder sBuilder =
                 new Retrofit.Builder()
-                        .baseUrl("здесь url")
+                        .baseUrl("https://la-todo.herokuapp.com")
                         .addConverterFactory(GsonConverterFactory.create(gson));
         Retrofit retrofit = sBuilder
                 .client(httpClient.build())
