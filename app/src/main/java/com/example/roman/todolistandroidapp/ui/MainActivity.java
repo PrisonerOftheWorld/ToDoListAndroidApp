@@ -34,15 +34,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initNavigation() {
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerLayout = findViewById(R.id.drawer_layout);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.view_navigation_open, R.string.view_navigation_close);
-        drawerLayout.setDrawerListener(toggle);
+        drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
     }
 
     private void initToolbar() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -58,16 +58,17 @@ public class MainActivity extends AppCompatActivity {
         //Attach the SectionsPagerAdapter to the ViewPager
         SectionsPagerAdapter pagerAdapter =
                 new SectionsPagerAdapter(getSupportFragmentManager());
-        ViewPager pager = (ViewPager) findViewById(R.id.pager);
+        ViewPager pager = findViewById(R.id.pager);
         pager.setAdapter(pagerAdapter);
 
         //Attach the ViewPager to the TabLayout
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(pager);
     }
 
     private class SectionsPagerAdapter extends FragmentPagerAdapter {
-        public SectionsPagerAdapter(FragmentManager fm) {
+
+        SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 

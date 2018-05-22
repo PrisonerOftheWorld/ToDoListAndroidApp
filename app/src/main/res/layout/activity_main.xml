@@ -45,8 +45,8 @@
             android:layout_width="wrap_content"
             android:src="@drawable/ic_plus"
             android:layout_gravity="end|bottom"
-            android:layout_marginBottom="@dimen/standart_margin"
-            android:layout_marginRight="@dimen/standart_margin"
+            android:layout_marginBottom="@dimen/standard_margin"
+            android:layout_marginRight="@dimen/standard_margin"
             app:backgroundTint="@color/colorPrimary"/>
 
     </android.support.design.widget.CoordinatorLayout>
@@ -60,4 +60,3 @@
         app:headerLayout="@layout/navigation_header"/>
 
 </android.support.v4.widget.DrawerLayout>
-
