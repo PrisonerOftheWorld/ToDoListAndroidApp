@@ -1,8 +1,21 @@
 <resources>
-    <string name="app_name">ToDoApp Beta</string>
+    <string name="app_name">ToDoListAndroidApp</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_registration">Sign up</string>
 
-    <string name="message_no_elements">You have not posts yet</string>
-    <string name="search">Search</string>
+    <string name="prompt_display_name">Name</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_register">Sign up</string>
+    <string name="action_register_question">Have not registered?</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
 
     <string name="todo_tab">To Do List</string>
     <string name="thinks_tab">Thinks</string>
@@ -12,10 +25,8 @@
     <string name="about">About</string>
     <string name="view_navigation_open">Open</string>
     <string name="view_navigation_close">Close</string>
-    <string name="image_background_desc">Background</string>
-    <string name="enter_email">Enter email</string>
-    <string name="enter_password">Enter password</string>
-    <string name="sign_in">Sign In</string>
-    <string name="register">Registration</string>
-    <string name="repeat_password">Repeat password</string>
+
+    <string name="message_no_elements">You have not posts yet</string>
+    <string name="search">Search</string>
+
 </resources>

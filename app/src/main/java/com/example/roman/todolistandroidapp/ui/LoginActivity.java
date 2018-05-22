@@ -6,6 +6,7 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -25,6 +26,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -37,34 +40,33 @@ import com.example.roman.todolistandroidapp.R;
 import com.example.roman.todolistandroidapp.data.managers.DataManager;
 import com.example.roman.todolistandroidapp.data.managers.PreferencesManager;
 import com.example.roman.todolistandroidapp.data.network.requests.RetrofitService;
-import com.example.roman.todolistandroidapp.data.network.requests.models.RegistrationBody;
-import com.example.roman.todolistandroidapp.data.network.requests.models.RegistrationResponse;
+import com.example.roman.todolistandroidapp.data.network.requests.models.LoginBody;
+import com.example.roman.todolistandroidapp.data.network.requests.models.LoginResponse;
 import com.example.roman.todolistandroidapp.data.network.requests.services.ApiRequests;
+import com.example.roman.todolistandroidapp.utils.App;
 
+import retrofit2.Call;
 import retrofit2.Response;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
-public class RegistrationActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+
+public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor>,OnClickListener  {
 
     private static final int REQUEST_READ_CONTACTS = 0;
 
-    private UserRegistrationTask mAuthTask = null;
+    private UserLoginTask mAuthTask = null;
 
     // UI references.
-    private EditText mNameView;
-    private EditText mEmailView;
+    private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
-    private View mRegistrationFormView;
+    private View mLoginFormView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registration);
-        // Set up the registration form.
-
-        mNameView = findViewById(R.id.displayName);
+        setContentView(R.layout.activity_login);
 
         mEmailView = findViewById(R.id.email);
         populateAutoComplete();
@@ -74,23 +76,17 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
-                    attemptRegistration();
+                    attemptLogin();
                     return true;
                 }
                 return false;
             }
         });
 
-        Button mEmailSignUpButton = findViewById(R.id.sign_up_button);
-        mEmailSignUpButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptRegistration();
-            }
-        });
+        mLoginFormView = findViewById(R.id.login_form);
+        mProgressView = findViewById(R.id.login_progress);
 
-        mRegistrationFormView = findViewById(R.id.registration_form);
-        mProgressView = findViewById(R.id.registration_progress);
+        findViewById(R.id.register).setOnClickListener(this);
     }
 
     private void populateAutoComplete() {
@@ -133,7 +129,7 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
         }
     }
 
-    private void attemptRegistration() {
+    private void attemptLogin() {
         if (mAuthTask != null) {
             return;
         }
@@ -142,11 +138,9 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
         mEmailView.setError(null);
         mPasswordView.setError(null);
 
-        // Store values at the time of the registration attempt.
-        String name = mNameView.getText().toString();
+        // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
-
 
         boolean cancel = false;
         View focusView = null;
@@ -163,14 +157,14 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
         }
 
         if (cancel) {
-            // There was an error; don't attempt registration and focus the first
+            // There was an error; don't attempt login and focus the first
             // form field with an error.
             focusView.requestFocus();
         } else {
             // Show a progress spinner, and kick off a background task to
-            // perform the user registration attempt.
+            // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserRegistrationTask( name, email, password);
+            mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
         }
     }
@@ -186,12 +180,12 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
         // the progress spinner.
         int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-        mRegistrationFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        mRegistrationFormView.animate().setDuration(shortAnimTime).alpha(
+        mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+        mLoginFormView.animate().setDuration(shortAnimTime).alpha(
                 show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                mRegistrationFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+                mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
             }
         });
 
@@ -230,6 +224,8 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
             emails.add(cursor.getString(ProfileQuery.ADDRESS));
             cursor.moveToNext();
         }
+
+        addEmailsToAutoComplete(emails);
     }
 
     @Override
@@ -237,6 +233,26 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
 
     }
 
+    private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
+        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<>(LoginActivity.this,
+                        android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
+
+        mEmailView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.sign_in_button:
+                attemptLogin();
+                break;
+            case R.id.register:
+                startActivity(new Intent(LoginActivity.this,RegistrationActivity.class));
+                break;
+        }
+    }
 
 
     private interface ProfileQuery {
@@ -248,17 +264,14 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
         int ADDRESS = 0;
     }
 
-    public class UserRegistrationTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mName;
         private final String mEmail;
         private final String mPassword;
+        private LoginResponse loginResponse;
         DataManager dataManager = new DataManager();
 
-        RegistrationResponse registrationResponse;
-
-        UserRegistrationTask(String name, String email, String password) {
-            mName = name;
+        UserLoginTask(String email, String password) {
             mEmail = email;
             mPassword = password;
         }
@@ -266,18 +279,18 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
         @Override
         protected Boolean doInBackground(Void... params) {
 
-            RegistrationBody registrationBody = new RegistrationBody(mName, mEmail, mPassword);
+            LoginBody loginBody = new LoginBody(mEmail, mPassword);
             ApiRequests apiRequests = RetrofitService.createService(ApiRequests.class);
 
             try {
-                Response<RegistrationResponse> response = apiRequests.registerUser("application/json", registrationBody).execute();
-                registrationResponse = response.body();
+                Response<LoginResponse> response = apiRequests.loginUser("application/json", loginBody).execute();
+                loginResponse = response.body();
 
                 Log.d("Status", response.message() + " " + response.code());
+                if(loginResponse!=null & response.code()==200){
+                    dataManager.getPreferencesManager().setAuthToken(loginResponse.token);
 
-                if(registrationResponse!=null & response.code()==200){
-                    dataManager.getPreferencesManager().setUsername(mName);
-                    startActivity(new Intent(RegistrationActivity.this, LoginActivity.class));
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     return true;
 
                 }else{

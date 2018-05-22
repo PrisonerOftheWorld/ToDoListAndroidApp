@@ -5,7 +5,9 @@ import com.example.roman.todolistandroidapp.data.network.requests.models.LoginRe
 import com.example.roman.todolistandroidapp.data.network.requests.models.RegistrationBody;
 import com.example.roman.todolistandroidapp.data.network.requests.models.RegistrationResponse;
 
+import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 /**
@@ -15,9 +17,9 @@ import retrofit2.http.POST;
 public interface ApiRequests {
 
     @POST("/users")
-    RegistrationResponse registerUser(@Body RegistrationBody registrationBody);
+    Call<RegistrationResponse> registerUser(@Header("Content-Type") String content_type, @Body RegistrationBody registrationBody);
 
     @POST("/login")
-    LoginResponse loginUser(@Body LoginBody loginBody);
+    Call<LoginResponse> loginUser(@Header("Content-Type") String content_type, @Body LoginBody loginBody);
 
 }

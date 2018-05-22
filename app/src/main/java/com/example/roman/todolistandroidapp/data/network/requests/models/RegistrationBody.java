@@ -6,4 +6,10 @@ public class RegistrationBody {
     String email;
     String password;
 
+    public RegistrationBody(String displayName, String email, String password){
+        this.displayName = displayName;
+        this.email = email;
+        this.password = password;
+    }
+
 }
