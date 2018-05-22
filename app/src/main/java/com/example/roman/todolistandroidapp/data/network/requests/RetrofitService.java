@@ -1,5 +1,6 @@
 package com.example.roman.todolistandroidapp.data.network.requests;
 
+import com.example.roman.todolistandroidapp.data.network.interceptors.HeaderInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -11,7 +12,7 @@ public class RetrofitService {
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
     public static <S> S createService(Class<S> serviceClass){
-
+       httpClient.addInterceptor(new HeaderInterceptor());
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
