@@ -21,7 +21,7 @@ public class HeaderInterceptor implements Interceptor {
             requestBuilder = original.newBuilder();
         }else {
             requestBuilder = original.newBuilder()
-                    .header("Token", pm.getAuthToken());
+                    .header("Authorization", pm.getAuthToken());
         }
         System.out.println("Interceptor");
 
