@@ -289,7 +289,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Log.d("Status", response.message() + " " + response.code());
                 if(loginResponse!=null & response.code()==200){
                     dataManager.getPreferencesManager().setAuthToken(loginResponse.token);
-
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     return true;
 
