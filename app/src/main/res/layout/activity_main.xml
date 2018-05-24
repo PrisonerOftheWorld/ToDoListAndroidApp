@@ -47,6 +47,7 @@
             android:layout_gravity="end|bottom"
             android:layout_marginBottom="@dimen/standard_margin"
             android:layout_marginRight="@dimen/standard_margin"
+            android:onClick="createGoal"
             app:backgroundTint="@color/colorPrimary"/>
 
     </android.support.design.widget.CoordinatorLayout>

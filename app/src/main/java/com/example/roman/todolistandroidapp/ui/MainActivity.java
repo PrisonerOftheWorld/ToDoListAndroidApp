@@ -11,14 +11,18 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.roman.todolistandroidapp.R;
 import com.example.roman.todolistandroidapp.ui.fragments.GoalsFragment;
 import com.example.roman.todolistandroidapp.ui.fragments.ThinksFragment;
 import com.example.roman.todolistandroidapp.ui.fragments.ToDoFragment;
+import com.example.roman.todolistandroidapp.ui.supportView.CustomDialogFragment;
+import com.example.roman.todolistandroidapp.ui.supportView.CustomDialogInterface;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CustomDialogInterface{
 
     Toolbar toolbar;
     DrawerLayout drawerLayout;
@@ -64,6 +68,16 @@ public class MainActivity extends AppCompatActivity {
         //Attach the ViewPager to the TabLayout
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(pager);
+    }
+
+    public void createGoal(View view) {
+        CustomDialogFragment dialog = new CustomDialogFragment(this);
+        dialog.show(getSupportFragmentManager(), "custom");
+    }
+
+    @Override
+    public void okButtonClicked(String value) {
+
     }
 
     private class SectionsPagerAdapter extends FragmentPagerAdapter {

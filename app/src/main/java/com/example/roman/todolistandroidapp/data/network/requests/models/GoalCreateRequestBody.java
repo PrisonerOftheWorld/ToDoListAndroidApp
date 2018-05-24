@@ -6,4 +6,8 @@ package com.example.roman.todolistandroidapp.data.network.requests.models;
 
 public class GoalCreateRequestBody {
     String title;
+
+    public GoalCreateRequestBody(String title) {
+        this.title = title;
+    }
 }

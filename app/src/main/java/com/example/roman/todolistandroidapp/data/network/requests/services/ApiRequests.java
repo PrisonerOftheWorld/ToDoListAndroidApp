@@ -33,7 +33,7 @@ public interface ApiRequests {
     @GET("/goals")
     Call<GoalsList> goals();
 
-    @POST("/goal")
+    @POST("/goals")
     Call<GoalCreateResponseBody> createGoal(@Body GoalCreateRequestBody goalCreateRequestBody);
 
 }

@@ -6,4 +6,8 @@ package com.example.roman.todolistandroidapp.data.network.requests.models;
 
 public class GoalCreateResponseBody {
     String id;
+
+    public String getId() {
+        return id;
+    }
 }
