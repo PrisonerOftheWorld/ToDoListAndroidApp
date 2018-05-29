@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ToDoListAndroidApp.iml" filepath="$PROJECT_DIR$/ToDoListAndroidApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ToDoListAndroidApp.iml" filepath="$PROJECT_DIR$/.idea/ToDoListAndroidApp.iml" />
+      <module fileurl="file://D:\ToDoListAndroidApp3\.idea\ToDoListAndroidApp2.iml" filepath="D:\ToDoListAndroidApp3\.idea\ToDoListAndroidApp2.iml" />
+      <module fileurl="file://C:\Users\Roman\AndroidStudioProjects\ToDoListAndroidApp\.idea\ToDoListAndroidApp3.iml" filepath="C:\Users\Roman\AndroidStudioProjects\ToDoListAndroidApp\.idea\ToDoListAndroidApp3.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://D:\ToDoListAndroidApp3\app\app.iml" filepath="D:\ToDoListAndroidApp3\app\app.iml" />
     </modules>
   </component>
 </project>
